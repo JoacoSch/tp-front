@@ -2,6 +2,7 @@
 import PokemonCard from "../components/PokemonCard.astro";
 import PokemonModal from "../components/PokemonModal.astro";
 import Searchbar from "../components/SearchBar.astro";
+import Filters from "../components/Filters.astro";
 
 const listRes = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
 const { results } = await listRes.json();
@@ -33,7 +34,7 @@ const pokemons = await Promise.all(
 		</div>
 		</header>
 	<Searchbar />	
-
+	<Filters />
 	<main>
 		{pokemons.map((pokemon, index) => (
 			<PokemonCard pokemon={pokemon} index={index} />
@@ -158,6 +159,30 @@ const pokemons = await Promise.all(
       card.style.animationDelay = "0ms";
     });
   });
+  const filterBtns = document.querySelectorAll(".filter-btn");
+
+filterBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    filterBtns.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    const type = btn.dataset.type;
+    cards.forEach(card => {
+	if (type === "all" || card.dataset.type === type) {
+	card.style.display = "flex";
+	card.classList.remove("hidden");
+	card.style.transition = "none";
+	card.style.animation = "none";
+	card.style.animationDelay = "0ms";
+	card.style.opacity = "1";
+	card.style.transform = "none";
+	}
+	else {
+        card.style.display = "none";
+      }
+    });
+  });
+});
 </script>
   </body>
 </html>

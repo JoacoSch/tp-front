@@ -1,43 +1,38 @@
-# Astro Starter Kit: Minimal
+# Pokédex
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Catálogo web de los 151 Pokémon originales construido con Astro, consumiendo la PokéAPI.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Herramientas usadas
 
-## 🚀 Project Structure
+- [Astro](https://astro.build/) — framework principal
+- [PokéAPI](https://pokeapi.co/) — fuente de datos
+- CSS custom properties — theming y dark mode
+- Vanilla JS — búsqueda, filtros, modal, animaciones
+- Google Fonts (Inter) — tipografía
+- Intersection Observer API — animaciones optimizadas
 
-Inside of your Astro project, you'll see the following folders and files:
+## Características
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+- Catálogo completo de los 151 Pokémon originales
+- Búsqueda en tiempo real por nombre
+- Filtros por tipo (fire, water, grass, etc)
+- Modal de detalle con stats, habilidades y movimientos
+- Dark mode con switch estilo iOS
+- Animaciones con Intersection Observer
+- Responsive para mobile y desktop
+- Imagen oficial de cada Pokémon
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Instrucciones para ejecutarlo
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. Clonar el repositorio:
+git clone https://github.com/JoacoSch/tp-front.git
+2. Instalar dependencias:
+npm install
+3. Ejecutar en desarrollo:
+npm run dev
+4. Abrir en el navegador:
+http://localhost:4321
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Deploy
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Desplegado en Vercel.
