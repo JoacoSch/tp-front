@@ -5,10 +5,16 @@ const mainType = pokemon.types[0].type.name;
 
 <div class="card" data-type={mainType} data-pokemon={JSON.stringify(pokemon)} data-delay={index * 30}>
   <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-  <h2>#{pokemon.id} {pokemon.name}</h2>
-  <p>{pokemon.types.map(t => t.type.name).join(" / ")}</p>
+  <div class="card-info">
+    <span class="card-number">#{String(pokemon.id).padStart(3, '0')}</span>
+    <h2>{pokemon.name}</h2>
+    <div class="types">
+      {pokemon.types.map(t => (
+        <span class={`type type-${t.type.name}`}>{t.type.name}</span>
+      ))}
+    </div>
+  </div>
 </div>
-
 <style>
   .card {
     background: var(--surface);
@@ -90,4 +96,59 @@ const mainType = pokemon.types[0].type.name;
       transform: translateY(10px);
     }
   }
+  .card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.card-number {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.card h2 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--text-primary);
+}
+
+.types {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.type {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.type-fire { background: #ff6b35; }
+.type-water { background: #4fc3f7; }
+.type-grass { background: #66bb6a; }
+.type-electric { background: #ffd54f; color: #333; }
+.type-psychic { background: #f48fb1; }
+.type-ice { background: #80deea; color: #333; }
+.type-dragon { background: #7986cb; }
+.type-dark { background: #616161; }
+.type-fighting { background: #ef5350; }
+.type-poison { background: #ab47bc; }
+.type-ground { background: #ffa726; color: #333; }
+.type-rock { background: #8d6e63; }
+.type-bug { background: #9ccc65; color: #333; }
+.type-ghost { background: #5c6bc0; }
+.type-normal { background: #bdbdbd; color: #333; }
+.type-steel { background: #90a4ae; color: #333; }
+.type-fairy { background: #f48fb1; }
+.type-flying { background: #90caf9; color: #333; }
 </style>

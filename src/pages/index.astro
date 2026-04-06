@@ -69,18 +69,48 @@ const pokemons = await Promise.all(
     card.addEventListener("click", () => {
       const data = JSON.parse(card.dataset.pokemon);
 
-      modalBody.innerHTML = `
-        <img src="${data.sprites.front_default}" alt="${data.name}" />
-        <h2>#${data.id} ${data.name}</h2>
-        <p><strong>Tipo:</strong> ${data.types.map(t => t.type.name).join(" / ")}</p>
-        <p><strong>Altura:</strong> ${data.height / 10}m</p>
-        <p><strong>Peso:</strong> ${data.weight / 10}kg</p>
-        <p><strong>Habilidades:</strong> ${data.abilities.map(a => a.ability.name).join(", ")}</p>
-        <h3>Stats</h3>
-        ${data.stats.map(s => `<p>${s.stat.name}: ${s.base_stat}</p>`).join("")}
-        <h3>Movimientos</h3>
-        <p>${data.moves.slice(0, 20).map(m => m.move.name).join(", ")}</p>
-      `;
+		modalBody.innerHTML = `
+			<img src="${data.sprites.other['official-artwork'].front_default || data.sprites.front_default}" alt="${data.name}" style="width:180px;height:180px;" />
+			<span class="modal-number">#${String(data.id).padStart(3, '0')}</span>
+			<h2 class="modal-name">${data.name}</h2>
+			<div class="modal-types">
+				${data.types.map(t => `<span class="type type-${t.type.name}">${t.type.name}</span>`).join("")}
+			</div>
+			<div class="modal-meta">
+				<div class="meta-item">
+				<span class="meta-label">Altura</span>
+				<span class="meta-value">${data.height / 10}m</span>
+				</div>
+				<div class="meta-item">
+				<span class="meta-label">Peso</span>
+				<span class="meta-value">${data.weight / 10}kg</span>
+				</div>
+			</div>
+			<div class="modal-section">
+				<h3>Habilidades</h3>
+				<div class="abilities">
+				${data.abilities.map(a => `<span class="ability">${a.ability.name}</span>`).join("")}
+				</div>
+			</div>
+			<div class="modal-section">
+				<h3>Stats</h3>
+				${data.stats.map(s => `
+				<div class="stat-row">
+					<span class="stat-name">${s.stat.name}</span>
+					<span class="stat-value">${s.base_stat}</span>
+					<div class="stat-bar">
+					<div class="stat-fill" style="width: ${Math.min(s.base_stat / 255 * 100, 100)}%"></div>
+					</div>
+				</div>
+				`).join("")}
+			</div>
+			<div class="modal-section">
+				<h3>Movimientos</h3>
+				<div class="moves">
+				${data.moves.slice(0, 20).map(m => `<span class="move">${m.move.name}</span>`).join("")}
+				</div>
+			</div>
+		`;
 
       const content = document.querySelector(".modal-content");
       content.style.animation = "none";
@@ -128,7 +158,7 @@ const pokemons = await Promise.all(
 </script>
   </body>
 </html>
-<style>
+<style is:global>
   :root {
     --bg: #f8f9fa;
     --surface: #ffffff;
@@ -262,5 +292,149 @@ const pokemons = await Promise.all(
   align-items: center;
   gap: 0.5rem;
   font-size: 1.1rem;
+}
+.modal-number {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.modal-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: var(--text-primary);
+  margin: 0.2rem 0;
+}
+
+.modal-types {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.modal-meta {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: var(--bg);
+  border-radius: 12px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.meta-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.meta-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.modal-section {
+  text-align: left;
+  margin-top: 1.2rem;
+  width: 100%;
+}
+
+.modal-section h3 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 0.6rem;
+}
+
+.abilities {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.ability {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  color: var(--text-primary);
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-name {
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  color: var(--text-secondary);
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.stat-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  width: 30px;
+  flex-shrink: 0;
+}
+
+.stat-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.moves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.move {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.72rem;
+  text-transform: capitalize;
+  color: var(--text-secondary);
+}
+
+.type {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  color: white;
+  letter-spacing: 0.5px;
 }
 </style>
