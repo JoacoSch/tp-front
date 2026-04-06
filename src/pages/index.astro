@@ -32,3 +32,66 @@ const pokemons = await Promise.all(
     </main>
   </body>
 </html>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: sans-serif;
+    background: #f0f0f0;
+    color: #333;
+  }
+
+  header {
+    background: #e63e3e;
+    color: white;
+    padding: 1rem 2rem;
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 2rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
+  .card img {
+    width: 96px;
+    height: 96px;
+  }
+
+  .card h2 {
+    font-size: 0.85rem;
+    text-transform: capitalize;
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .card p {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: capitalize;
+  }
+</style>
