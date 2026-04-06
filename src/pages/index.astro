@@ -20,7 +20,7 @@ const pokemons = await Promise.all(
 
     <main>
       {pokemons.map((pokemon) => (
-        <div class="card" data-pokemon={JSON.stringify(pokemon)}>
+        <div class="card" data-type={pokemon.types[0].type.name} data-pokemon={JSON.stringify(pokemon)}>
           <img 
             src={pokemon.sprites.front_default} 
             alt={pokemon.name}
@@ -174,4 +174,19 @@ const pokemons = await Promise.all(
   font-size: 1.2rem;
   cursor: pointer;
 }
+.card[data-type="fire"] { background: #fde8d8; }
+.card[data-type="water"] { background: #d8eafd; }
+.card[data-type="grass"] { background: #d8fde0; }
+.card[data-type="electric"] { background: #fdf9d8; }
+.card[data-type="psychic"] { background: #fdd8f0; }
+.card[data-type="ice"] { background: #d8f5fd; }
+.card[data-type="dragon"] { background: #d8d8fd; }
+.card[data-type="dark"] { background: #e0d8fd; }
+.card[data-type="fighting"] { background: #fdd8d8; }
+.card[data-type="poison"] { background: #ead8fd; }
+.card[data-type="ground"] { background: #fdf0d8; }
+.card[data-type="rock"] { background: #ece8d8; }
+.card[data-type="bug"] { background: #edfdd8; }
+.card[data-type="ghost"] { background: #d8d8fd; }
+.card[data-type="normal"] { background: #f0f0f0; }
 </style>
