@@ -1,6 +1,7 @@
 ---
 import PokemonCard from "../components/PokemonCard.astro";
 import PokemonModal from "../components/PokemonModal.astro";
+import Searchbar from "../components/SearchBar.astro";
 
 const listRes = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
 const { results } = await listRes.json();
@@ -20,6 +21,7 @@ const pokemons = await Promise.all(
     	<header>
       	<h1>Pokédex</h1>
     </header>
+	<Searchbar />
 
 	<main>
 		{pokemons.map((pokemon) => (
@@ -30,7 +32,7 @@ const pokemons = await Promise.all(
 </div>
 
 <script>
-	
+
   const cards = document.querySelectorAll(".card");
   console.log("cards encontradas:", cards.length);
   const modal = document.getElementById("modal");
@@ -65,6 +67,15 @@ const pokemons = await Promise.all(
   modal.addEventListener("click", (e) => {
     if (e.target === modal) modal.classList.add("hidden");
   });
+  	const search = document.getElementById("search");
+
+	search.addEventListener("input", () => {
+	const query = search.value.toLowerCase();
+	cards.forEach((card) => {
+		const name = card.querySelector("h2").textContent.toLowerCase();
+		card.style.display = name.includes(query) ? "block" : "none";
+	});
+	});
 </script>
   </body>
 </html>
