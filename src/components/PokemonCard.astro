@@ -1,0 +1,59 @@
+---
+const { pokemon } = Astro.props;
+const mainType = pokemon.types[0].type.name;
+---
+
+<div class="card" data-type={mainType} data-pokemon={JSON.stringify(pokemon)}>
+  <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+  <h2>#{pokemon.id} {pokemon.name}</h2>
+  <p>{pokemon.types.map(t => t.type.name).join(" / ")}</p>
+</div>
+
+<style>
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
+  .card img {
+    width: 96px;
+    height: 96px;
+  }
+
+  .card h2 {
+    font-size: 0.85rem;
+    text-transform: capitalize;
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .card p {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: capitalize;
+  }
+
+  .card[data-type="fire"] { background: #fde8d8; }
+  .card[data-type="water"] { background: #d8eafd; }
+  .card[data-type="grass"] { background: #d8fde0; }
+  .card[data-type="electric"] { background: #fdf9d8; }
+  .card[data-type="psychic"] { background: #fdd8f0; }
+  .card[data-type="ice"] { background: #d8f5fd; }
+  .card[data-type="dragon"] { background: #d8d8fd; }
+  .card[data-type="dark"] { background: #e0d8fd; }
+  .card[data-type="fighting"] { background: #fdd8d8; }
+  .card[data-type="poison"] { background: #ead8fd; }
+  .card[data-type="ground"] { background: #fdf0d8; }
+  .card[data-type="rock"] { background: #ece8d8; }
+  .card[data-type="bug"] { background: #edfdd8; }
+  .card[data-type="ghost"] { background: #d8d8fd; }
+  .card[data-type="normal"] { background: #f0f0f0; }
+</style>
