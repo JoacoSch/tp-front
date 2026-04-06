@@ -1,0 +1,47 @@
+---
+---
+
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <button id="close-modal">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<style>
+  .modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
+
+  .modal.hidden {
+    display: none;
+  }
+
+  .modal-content {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    text-align: center;
+  }
+
+  #close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+</style>
