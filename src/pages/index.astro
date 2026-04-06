@@ -20,7 +20,7 @@ const pokemons = await Promise.all(
 
     <main>
       {pokemons.map((pokemon) => (
-        <div class="card">
+        <div class="card" data-pokemon={JSON.stringify(pokemon)}>
           <img 
             src={pokemon.sprites.front_default} 
             alt={pokemon.name}
@@ -30,6 +30,51 @@ const pokemons = await Promise.all(
         </div>
       ))}
     </main>
+	<!-- Modal -->
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <button id="close-modal">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+	
+  const cards = document.querySelectorAll(".card");
+  console.log("cards encontradas:", cards.length);
+  const modal = document.getElementById("modal");
+  const modalBody = document.getElementById("modal-body");
+  const closeBtn = document.getElementById("close-modal");
+
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const data = JSON.parse(card.dataset.pokemon);
+
+      modalBody.innerHTML = `
+        <img src="${data.sprites.front_default}" alt="${data.name}" />
+        <h2>#${data.id} ${data.name}</h2>
+        <p><strong>Tipo:</strong> ${data.types.map(t => t.type.name).join(" / ")}</p>
+        <p><strong>Altura:</strong> ${data.height / 10}m</p>
+        <p><strong>Peso:</strong> ${data.weight / 10}kg</p>
+        <p><strong>Habilidades:</strong> ${data.abilities.map(a => a.ability.name).join(", ")}</p>
+        <h3>Stats</h3>
+        ${data.stats.map(s => `<p>${s.stat.name}: ${s.base_stat}</p>`).join("")}
+        <h3>Movimientos</h3>
+        <p>${data.moves.slice(0, 20).map(m => m.move.name).join(", ")}</p>
+      `;
+
+      modal.classList.remove("hidden");
+    });
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) modal.classList.add("hidden");
+  });
+</script>
   </body>
 </html>
 <style>
@@ -94,4 +139,39 @@ const pokemons = await Promise.all(
     color: #888;
     text-transform: capitalize;
   }
+  .modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  text-align: center;
+}
+
+#close-modal {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
 </style>
