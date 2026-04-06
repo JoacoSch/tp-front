@@ -42,22 +42,26 @@ const pokemons = await Promise.all(
 
   cards.forEach((card) => {
     card.addEventListener("click", () => {
-      const data = JSON.parse(card.dataset.pokemon);
+      	const data = JSON.parse(card.dataset.pokemon);
 
-      modalBody.innerHTML = `
-        <img src="${data.sprites.front_default}" alt="${data.name}" />
-        <h2>#${data.id} ${data.name}</h2>
-        <p><strong>Tipo:</strong> ${data.types.map(t => t.type.name).join(" / ")}</p>
-        <p><strong>Altura:</strong> ${data.height / 10}m</p>
-        <p><strong>Peso:</strong> ${data.weight / 10}kg</p>
-        <p><strong>Habilidades:</strong> ${data.abilities.map(a => a.ability.name).join(", ")}</p>
-        <h3>Stats</h3>
-        ${data.stats.map(s => `<p>${s.stat.name}: ${s.base_stat}</p>`).join("")}
-        <h3>Movimientos</h3>
-        <p>${data.moves.slice(0, 20).map(m => m.move.name).join(", ")}</p>
-      `;
-
-      modal.classList.remove("hidden");
+    	modalBody.innerHTML = `
+			<img src="${data.sprites.front_default}" alt="${data.name}" />
+			<h2>#${data.id} ${data.name}</h2>
+			<p><strong>Tipo:</strong> ${data.types.map(t => t.type.name).join(" / ")}</p>
+			<p><strong>Altura:</strong> ${data.height / 10}m</p>
+			<p><strong>Peso:</strong> ${data.weight / 10}kg</p>
+			<p><strong>Habilidades:</strong> ${data.abilities.map(a => a.ability.name).join(", ")}</p>
+			<h3>Stats</h3>
+			${data.stats.map(s => `<p>${s.stat.name}: ${s.base_stat}</p>`).join("")}
+			<h3>Movimientos</h3>
+			<p>${data.moves.slice(0, 20).map(m => m.move.name).join(", ")}</p>
+		`;
+		const content = document.querySelector(".modal-content");
+		content.style.animation = "none";
+		content.offsetHeight; // fuerza reflow
+		content.style.animation = "";
+			
+    	modal.classList.remove("hidden");
     });
   });
 
@@ -74,7 +78,18 @@ const pokemons = await Promise.all(
 	const query = search.value.toLowerCase();
 	cards.forEach((card) => {
 		const name = card.querySelector("h2").textContent.toLowerCase();
-		card.style.display = name.includes(query) ? "block" : "none";
+		if (name.includes(query)) {
+		card.classList.remove("hidden");
+		card.style.display = "flex";
+		card.style.animationDelay = query === "" ? `${card.dataset.delay}ms` : "0ms";
+		} else {
+		card.classList.add("hidden");
+		setTimeout(() => {
+			if (card.classList.contains("hidden")) {
+			card.style.display = "none";
+			}
+		}, 200);
+		}
 	});
 	});
 
