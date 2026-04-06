@@ -18,9 +18,10 @@ const pokemons = await Promise.all(
     <title>Pokédex</title>
   </head>
   	<body>
-    	<header>
-      	<h1>Pokédex</h1>
-    </header>
+	<header>
+	<h1>Pokédex</h1>
+	<button id="dark-toggle">🌙</button>
+	</header>
 	<Searchbar />
 
 	<main>
@@ -76,10 +77,40 @@ const pokemons = await Promise.all(
 		card.style.display = name.includes(query) ? "block" : "none";
 	});
 	});
+
+	const darkToggle = document.getElementById("dark-toggle");
+	darkToggle.addEventListener("click", () => {
+  	document.documentElement.classList.toggle("dark");
+  	darkToggle.textContent = document.documentElement.classList.contains("dark") ? "☀️" : "🌙";
+});
 </script>
   </body>
 </html>
 <style>
+  :root {
+    --bg: #f8f9fa;
+    --surface: #ffffff;
+    --text-primary: #202124;
+    --text-secondary: #5f6368;
+    --border: #e0e0e0;
+    --header-bg: #ffffff;
+    --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.15);
+    --accent: #1a73e8;
+  }
+
+  :root.dark {
+    --bg: #202124;
+    --surface: #2d2e30;
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0a6;
+    --border: #3c4043;
+    --header-bg: #2d2e30;
+    --shadow: 0 1px 3px rgba(0,0,0,0.4);
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.5);
+    --accent: #8ab4f8;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -87,27 +118,58 @@ const pokemons = await Promise.all(
   }
 
   body {
-    font-family: sans-serif;
-    background: #f0f0f0;
-    color: #333;
+    font-family: 'Google Sans', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
   }
 
   header {
-    background: #e63e3e;
-    color: white;
-    padding: 1rem 2rem;
-    text-align: center;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: var(--shadow);
   }
 
   header h1 {
-    font-size: 2rem;
-    letter-spacing: 2px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+
+  #dark-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  #dark-toggle:hover {
+    background: var(--border);
   }
 
   main {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 1rem;
     padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
   }
 </style>
