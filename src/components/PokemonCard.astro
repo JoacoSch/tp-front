@@ -3,7 +3,7 @@ const { pokemon, index } = Astro.props;
 const mainType = pokemon.types[0].type.name;
 ---
 
-<div class="card" data-type={mainType} data-pokemon={JSON.stringify(pokemon)} data-delay={index * 30} style={`animation-delay: ${index * 30}ms`}>
+<div class="card" data-type={mainType} data-pokemon={JSON.stringify(pokemon)} data-delay={index * 30}>
   <img src={pokemon.sprites.front_default} alt={pokemon.name} />
   <h2>#{pokemon.id} {pokemon.name}</h2>
   <p>{pokemon.types.map(t => t.type.name).join(" / ")}</p>

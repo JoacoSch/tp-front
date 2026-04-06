@@ -18,11 +18,18 @@ const pokemons = await Promise.all(
     <title>Pokédex</title>
   </head>
   	<body>
-	<header>
-	<h1>Pokédex</h1>
-	<button id="dark-toggle">🌙</button>
-	</header>
-	<Searchbar />
+		<header>
+		<h1>Pokédex</h1>
+		<div class="toggle-container">
+			<span id="toggle-icon">☀️</span>
+			<label class="switch">
+			<input type="checkbox" id="dark-toggle" />
+			<span class="slider"></span>
+			</label>
+			<span>🌙</span>
+		</div>
+		</header>
+	<Searchbar />	
 
 	<main>
 		{pokemons.map((pokemon, index) => (
@@ -33,71 +40,91 @@ const pokemons = await Promise.all(
 </div>
 
 <script>
-
   const cards = document.querySelectorAll(".card");
-  console.log("cards encontradas:", cards.length);
   const modal = document.getElementById("modal");
   const modalBody = document.getElementById("modal-body");
   const closeBtn = document.getElementById("close-modal");
+  const search = document.getElementById("search");
+  const darkToggle = document.getElementById("dark-toggle");
+
+  // Intersection Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        card.style.animationDelay = `${card.dataset.delay}ms`;
+        card.classList.add("visible");
+        observer.unobserve(card);
+      }
+    });
+  }, { threshold: 0.1 });
 
   cards.forEach((card) => {
-    card.addEventListener("click", () => {
-      	const data = JSON.parse(card.dataset.pokemon);
+    card.style.animationDelay = "9999s";
+    observer.observe(card);
+  });
 
-    	modalBody.innerHTML = `
-			<img src="${data.sprites.front_default}" alt="${data.name}" />
-			<h2>#${data.id} ${data.name}</h2>
-			<p><strong>Tipo:</strong> ${data.types.map(t => t.type.name).join(" / ")}</p>
-			<p><strong>Altura:</strong> ${data.height / 10}m</p>
-			<p><strong>Peso:</strong> ${data.weight / 10}kg</p>
-			<p><strong>Habilidades:</strong> ${data.abilities.map(a => a.ability.name).join(", ")}</p>
-			<h3>Stats</h3>
-			${data.stats.map(s => `<p>${s.stat.name}: ${s.base_stat}</p>`).join("")}
-			<h3>Movimientos</h3>
-			<p>${data.moves.slice(0, 20).map(m => m.move.name).join(", ")}</p>
-		`;
-		const content = document.querySelector(".modal-content");
-		content.style.animation = "none";
-		content.offsetHeight; // fuerza reflow
-		content.style.animation = "";
-			
-    	modal.classList.remove("hidden");
+  // Click en cards
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const data = JSON.parse(card.dataset.pokemon);
+
+      modalBody.innerHTML = `
+        <img src="${data.sprites.front_default}" alt="${data.name}" />
+        <h2>#${data.id} ${data.name}</h2>
+        <p><strong>Tipo:</strong> ${data.types.map(t => t.type.name).join(" / ")}</p>
+        <p><strong>Altura:</strong> ${data.height / 10}m</p>
+        <p><strong>Peso:</strong> ${data.weight / 10}kg</p>
+        <p><strong>Habilidades:</strong> ${data.abilities.map(a => a.ability.name).join(", ")}</p>
+        <h3>Stats</h3>
+        ${data.stats.map(s => `<p>${s.stat.name}: ${s.base_stat}</p>`).join("")}
+        <h3>Movimientos</h3>
+        <p>${data.moves.slice(0, 20).map(m => m.move.name).join(", ")}</p>
+      `;
+
+      const content = document.querySelector(".modal-content");
+      content.style.animation = "none";
+      content.offsetHeight;
+      content.style.animation = "";
+
+      modal.classList.remove("hidden");
     });
   });
 
-  closeBtn.addEventListener("click", () => {
-    modal.classList.add("hidden");
-  });
-
+  // Cerrar modal
+  closeBtn.addEventListener("click", () => modal.classList.add("hidden"));
   modal.addEventListener("click", (e) => {
     if (e.target === modal) modal.classList.add("hidden");
   });
-  	const search = document.getElementById("search");
 
-	search.addEventListener("input", () => {
-	const query = search.value.toLowerCase();
-	cards.forEach((card) => {
-		const name = card.querySelector("h2").textContent.toLowerCase();
-		if (name.includes(query)) {
-		card.classList.remove("hidden");
-		card.style.display = "flex";
-		card.style.animationDelay = query === "" ? `${card.dataset.delay}ms` : "0ms";
-		} else {
-		card.classList.add("hidden");
-		setTimeout(() => {
-			if (card.classList.contains("hidden")) {
-			card.style.display = "none";
-			}
-		}, 200);
-		}
-	});
-	});
+  // Búsqueda
+  search.addEventListener("input", () => {
+    const query = search.value.toLowerCase();
+    cards.forEach((card) => {
+      const name = card.querySelector("h2").textContent.toLowerCase();
+      if (name.includes(query)) {
+        card.classList.remove("hidden");
+        card.style.display = "flex";
+        card.style.animationDelay = query === "" ? `${card.dataset.delay}ms` : "0ms";
+      } else {
+        card.classList.add("hidden");
+        setTimeout(() => {
+          if (card.classList.contains("hidden")) card.style.display = "none";
+        }, 200);
+      }
+    });
+  });
 
-	const darkToggle = document.getElementById("dark-toggle");
-	darkToggle.addEventListener("click", () => {
-  	document.documentElement.classList.toggle("dark");
-  	darkToggle.textContent = document.documentElement.classList.contains("dark") ? "☀️" : "🌙";
-});
+  // Dark mode
+  darkToggle.addEventListener("change", () => {
+    document.documentElement.classList.toggle("dark");
+    cards.forEach((card) => {
+      card.style.animation = "none";
+      card.offsetHeight;
+      card.style.animation = "";
+      card.style.animationDelay = "0ms";
+    });
+  });
 </script>
   </body>
 </html>
@@ -187,4 +214,53 @@ const pokemons = await Promise.all(
     max-width: 1400px;
     margin: 0 auto;
   }
+
+  .switch {
+  position: relative;
+  display: inline-block;
+  width: 51px;
+  height: 31px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #e5e5ea;
+  border-radius: 31px;
+  transition: 0.3s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 27px;
+  height: 27px;
+  left: 2px;
+  top: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.switch input:checked + .slider {
+  background: #34c759;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(20px);
+}
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+}
 </style>
