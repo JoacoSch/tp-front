@@ -1,4 +1,5 @@
 ---
+import './PokemonModal.css';
 ---
 
 <div id="modal" class="modal hidden">
@@ -7,68 +8,3 @@
     <div id="modal-body"></div>
   </div>
 </div>
-
-<style>
-  .modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    backdrop-filter: blur(4px);
-  }
-
-  .modal.hidden {
-    display: none;
-  }
-
-  .modal-content {
-    background: var(--surface);
-    border-radius: 12px;
-    padding: 2rem;
-    max-width: 420px;
-    width: 90%;
-    max-height: 85vh;
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 24px 48px rgba(0,0,0,0.2);
-  }
-
-  #close-modal {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: var(--text-secondary);
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  #close-modal:hover {
-    background: var(--border);
-  }
-
-  @keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-.modal-content {
-  animation: modalIn 0.25s ease both;
-}
-</style>

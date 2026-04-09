@@ -1,0 +1,129 @@
+.card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  animation: fadeInUp 0.4s ease both;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+.card img {
+  width: 96px;
+  height: 96px;
+  image-rendering: pixelated;
+}
+
+.card h2 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: var(--text-primary);
+}
+
+.card p {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-transform: capitalize;
+}
+
+.card[data-type="fire"] { border-top: 3px solid #ff6b35; }
+.card[data-type="water"] { border-top: 3px solid #4fc3f7; }
+.card[data-type="grass"] { border-top: 3px solid #66bb6a; }
+.card[data-type="electric"] { border-top: 3px solid #ffd54f; }
+.card[data-type="psychic"] { border-top: 3px solid #f48fb1; }
+.card[data-type="ice"] { border-top: 3px solid #80deea; }
+.card[data-type="dragon"] { border-top: 3px solid #7986cb; }
+.card[data-type="dark"] { border-top: 3px solid #616161; }
+.card[data-type="fighting"] { border-top: 3px solid #ef5350; }
+.card[data-type="poison"] { border-top: 3px solid #ab47bc; }
+.card[data-type="ground"] { border-top: 3px solid #ffa726; }
+.card[data-type="rock"] { border-top: 3px solid #8d6e63; }
+.card[data-type="bug"] { border-top: 3px solid #9ccc65; }
+.card[data-type="ghost"] { border-top: 3px solid #5c6bc0; }
+.card[data-type="normal"] { border-top: 3px solid #bdbdbd; }
+.card[data-type="steel"] { border-top: 3px solid #90a4ae; }
+.card[data-type="fairy"] { border-top: 3px solid #f48fb1; }
+
+.card.hidden {
+  animation: fadeOut 0.2s ease both;
+  pointer-events: none;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.card-number {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.types {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.type {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.type-fire { background: #ff6b35; }
+.type-water { background: #4fc3f7; }
+.type-grass { background: #66bb6a; }
+.type-electric { background: #ffd54f; color: #333; }
+.type-psychic { background: #f48fb1; }
+.type-ice { background: #80deea; color: #333; }
+.type-dragon { background: #7986cb; }
+.type-dark { background: #616161; }
+.type-fighting { background: #ef5350; }
+.type-poison { background: #ab47bc; }
+.type-ground { background: #ffa726; color: #333; }
+.type-rock { background: #8d6e63; }
+.type-bug { background: #9ccc65; color: #333; }
+.type-ghost { background: #5c6bc0; }
+.type-normal { background: #bdbdbd; color: #333; }
+.type-steel { background: #90a4ae; color: #333; }
+.type-fairy { background: #f48fb1; }
+.type-flying { background: #90caf9; color: #333; }

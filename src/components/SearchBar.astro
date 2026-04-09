@@ -1,34 +1,7 @@
 ---
+import './SearchBar.css';
 ---
 
 <div class="search-container">
   <input type="text" id="search" placeholder="Buscar Pokémon..." />
 </div>
-
-<style>
-  .search-container {
-    display: flex;
-    justify-content: center;
-    padding: 1.5rem 2rem;
-    background: var(--bg);
-  }
-
-  input {
-    width: 100%;
-    max-width: 500px;
-    padding: 0.75rem 1.2rem;
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    font-size: 0.95rem;
-    outline: none;
-    background: var(--surface);
-    color: var(--text-primary);
-    box-shadow: var(--shadow);
-    transition: box-shadow 0.2s, border-color 0.2s;
-  }
-
-  input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(26,115,232,0.15);
-  }
-</style>
